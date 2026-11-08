@@ -1,147 +1,81 @@
 # NestJS API Demo
 
-A hands-on project I am building while learning **NestJS** and putting its concepts into practice. The current focus is a REST API for managing employees, using **Prisma ORM 7** and **PostgreSQL on Neon**.
+A hands-on project I am building while learning NestJS and implementing its concepts through practical development.
 
-This is an ongoing learning project. I am building it incrementally, exploring how NestJS modules, controllers, services, database access, and error handling fit together.
+The current focus is building REST APIs with NestJS, Prisma ORM and PostgreSQL.
 
-## Current progress
+## Current Progress
 
-### Employee API
+- NestJS modules, controllers and services.
+- Employee CRUD operations.
+- Employee filtering by role.
+- Prisma ORM 7 integration with Neon PostgreSQL.
+- Shared database module and service.
+- Prisma error handling and appropriate HTTP exceptions.
+- HTTP status handling, including `204 No Content` for successful deletion.
 
-The employee resource currently supports the following operations:
+## Tech Stack
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| `POST` | `/employees` | Create an employee |
-| `GET` | `/employees` | Get all employees |
-| `GET` | `/employees?role=INTERN` | Filter employees by role |
-| `GET` | `/employees/:id` | Get an employee by ID |
-| `PATCH` | `/employees/:id` | Update an employee |
-| `DELETE` | `/employees/:id` | Delete an employee |
+- **Backend:** NestJS 11, TypeScript
+- **ORM:** Prisma 7
+- **Database:** PostgreSQL
+- **Database hosting:** Neon
+- **Database adapter:** Prisma Neon Adapter
 
-A successful delete returns **204 No Content**. Requests for missing employees return **404 Not Found**.
+## Employee API
 
-### Database and Prisma
+| Method | Endpoint                 | Description        |
+| ------ | ------------------------ | ------------------ |
+| POST   | `/employees`             | Create employee    |
+| GET    | `/employees`             | Get all employees  |
+| GET    | `/employees?role=INTERN` | Filter by role     |
+| GET    | `/employees/:id`         | Get employee by ID |
+| PATCH  | `/employees/:id`         | Update employee    |
+| DELETE | `/employees/:id`         | Delete employee    |
 
-- Prisma ORM 7 configured with the `prisma-client` generator.
-- PostgreSQL database hosted on [Neon](https://neon.tech/).
-- Prisma Neon driver adapter used by the NestJS database service.
-- A shared `DatabaseModule` provides and exports `DatabaseService`.
-- Prisma schema and migrations are checked into the repository.
+Available employee roles: `ADMIN`, `ENGINEER`, `INTERN`.
 
-The current `Employees` model contains:
+## Getting Started
 
-| Field | Description |
-| --- | --- |
-| `id` | Auto-incrementing employee ID |
-| `name` | Employee name |
-| `email` | Unique email address |
-| `role` | Employee role |
-| `createdAt` | Creation timestamp |
-| `updatedAt` | Last-update timestamp |
-
-Available roles: `ADMIN`, `ENGINEER`, and `INTERN`.
-
-### Error handling
-
-The employee service includes a shared Prisma error handler for common cases:
-
-- `P2002` — unique constraint violation, returned as **409 Conflict**.
-- `P2025` — required record not found, returned as **404 Not Found**.
-- `PrismaClientValidationError` — invalid Prisma input, returned as **400 Bad Request**.
-- Other errors are rethrown for NestJS to handle.
-
-## Tech stack
-
-- **NestJS 11** — Node.js application framework
-- **TypeScript** — application language
-- **Prisma ORM 7** — database toolkit and ORM
-- **PostgreSQL** — relational database
-- **Neon** — hosted PostgreSQL
-- **Prisma Neon adapter** — database driver adapter
-
-## Getting started
-
-### Prerequisites
-
-- Node.js (developed with Node.js 22)
-- npm
-- A PostgreSQL database. This project currently uses Neon.
-
-### 1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/AnkitB92/nest-app-demo.git
 cd nest-app-demo
 ```
 
-### 2. Install dependencies
+Install dependencies:
 
 ```bash
-npm ci
+npm install
 ```
 
-### 3. Configure environment variables
-
-Copy the example file:
-
-```bash
-cp .env.example .env
-```
-
-Update `.env` with your Neon connection strings:
+Configure your environment variables in `.env`:
 
 ```env
-# Pooled connection used by the NestJS application
 DATABASE_URL="your_neon_pooled_connection_string"
-
-# Direct/unpooled connection used by Prisma CLI migrations
-DATABASE_URL_UNPOOLED="your_neon_unpooled_connection_string"
+DATABASE_URL_UNPOOLED="your_neon_direct_connection_string"
 ```
 
-Do not commit your real `.env` file or share database credentials.
-
-### 4. Apply migrations and generate the Prisma client
-
-This project keeps its Prisma 7 CLI configuration in `prisma7.config.ts`, so pass that file using `--config`:
+Apply migrations and generate the Prisma client:
 
 ```bash
 npx prisma migrate dev --config prisma7.config.ts
 npx prisma generate --config prisma7.config.ts
 ```
 
-### 5. Run the application
+Start the development server:
 
 ```bash
-# Development with watch mode
 npm run start:dev
-
-# Build
-npm run build
-
-# Run the production build
-npm run start:prod
 ```
 
-The application uses port `3000` by default. Set `PORT` in the environment to use a different port.
+The application runs on port `3000` by default.
 
-## Available scripts
+## Project Status
 
-| Command | Description |
-| --- | --- |
-| `npm run start:dev` | Start the application in watch mode |
-| `npm run build` | Build the application |
-| `npm run start:prod` | Run the production build |
-| `npm run test` | Run unit tests |
-| `npm run test:e2e` | Run end-to-end tests |
-| `npm run test:cov` | Generate test coverage |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format source and test files |
-
-## Project status
-
-The employee CRUD flow and its initial Prisma integration are in place. I will continue expanding the project as I work through more NestJS concepts, improve request validation, and add tests and other features.
+This is an ongoing learning project. I will continue exploring NestJS, implementing new features and improving the existing code as I progress.
 
 ---
 
-*Learning NestJS by building, experimenting, and implementing things hands-on.*
+_Learning, experimenting and building things hands-on._
