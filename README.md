@@ -7,8 +7,9 @@ The current focus is building REST APIs with NestJS, Prisma ORM and PostgreSQL.
 ## Current Progress
 
 - NestJS modules, controllers and services.
-- Employee CRUD operations.
-- Employee filtering by role.
+- Users and Employees CRUD operations.
+- Filtering users and employees by role.
+- DTOs, TypeScript interfaces and request validation.
 - Prisma ORM 7 integration with Neon PostgreSQL.
 - Shared database module and service.
 - Prisma error handling and appropriate HTTP exceptions.
@@ -21,8 +22,26 @@ The current focus is building REST APIs with NestJS, Prisma ORM and PostgreSQL.
 - **Database:** PostgreSQL
 - **Database hosting:** Neon
 - **Database adapter:** Prisma Neon Adapter
+- **Validation:** class-validator, class-transformer
+
+## Users API
+
+In-memory CRUD implementation using TypeScript interfaces and DTOs.
+
+| Method | Endpoint             | Description    |
+| ------ | -------------------- | -------------- |
+| POST   | `/users`             | Create user    |
+| GET    | `/users`             | Get all users  |
+| GET    | `/users?role=INTERN` | Filter by role |
+| GET    | `/users/:id`         | Get user by ID |
+| PATCH  | `/users/:id`         | Update user    |
+| DELETE | `/users/:id`         | Delete user    |
+
+Users are currently stored in memory and reset when the application restarts.
 
 ## Employee API
+
+Database-backed CRUD implementation using Prisma ORM and PostgreSQL.
 
 | Method | Endpoint                 | Description        |
 | ------ | ------------------------ | ------------------ |
