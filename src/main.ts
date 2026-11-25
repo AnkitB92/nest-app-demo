@@ -2,9 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { corsOptions } from './config/corsOptions';
+import { AllExceptionFilter } from './all-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new AllExceptionFilter());
   app.setGlobalPrefix('api');
   app.enableCors(corsOptions);
   app.useGlobalPipes(
